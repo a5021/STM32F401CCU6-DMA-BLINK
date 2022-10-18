@@ -1,2 +1,2 @@
 # STM32F401CCU6-DMA-BLINK
-STM32 blink demo using DMA
+STM32 blink using DMA demo 

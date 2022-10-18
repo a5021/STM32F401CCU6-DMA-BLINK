@@ -50,6 +50,9 @@ ifeq ($(OS), Windows_NT)
     STLINK = ST-LINK_CLI.exe
     STLINK_FLAGS = -c UR -V -P $(BUILD_DIR)/$(TARGET).hex -HardRst -Run
 
+    JLINK = JFlash.exe
+    JLINK_FLAGS = -openprj./stm32f401cc.jflash -open$(BUILD_DIR)/$(TARGET).hex -auto -exit -jflashlog./jfl.log
+
 else
 
     UNAME_S := $(shell uname -s)
@@ -115,9 +118,13 @@ debug: all
 gccversion :
 	@$(CC) --version
 
-# Program the device.
+# Program the device using st-link.
 program: $(BUILD_DIR)/$(TARGET).hex
 	$(STLINK) $(STLINK_FLAGS)
+
+# Program the device using jlink.
+jprogram: $(BUILD_DIR)/$(TARGET).hex
+	$(JLINK) $(JLINK_FLAGS)
 
 clean:
 	rm -fR $(BUILD_DIR)
