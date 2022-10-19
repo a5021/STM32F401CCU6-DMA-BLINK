@@ -51,7 +51,7 @@ ifeq ($(OS), Windows_NT)
     STLINK_FLAGS = -c UR -V -P $(BUILD_DIR)/$(TARGET).hex -HardRst -Run
 
     JLINK = JFlash.exe
-    JLINK_FLAGS = -openprj./stm32f401cc.jflash -open$(BUILD_DIR)/$(TARGET).hex -auto -exit -jflashlog./jfl.log
+    JLINK_FLAGS = -openprj./stm32f401cc.jflash -open$(BUILD_DIR)/$(TARGET).hex -auto -exit -jflashlog./jflash.log
 
 else
 
@@ -75,6 +75,10 @@ else
 
     STLINK = st-flash
     STLINK_FLAGS = --reset --format ihex write $(BUILD_DIR)/$(TARGET).hex
+
+    JLINK = JFlashExe
+    JLINK_FLAGS = -openprj./stm32f401cc.jflash -open$(BUILD_DIR)/$(TARGET).hex -auto -exit -jflashlog./jflash.log
+
 
 endif
 
