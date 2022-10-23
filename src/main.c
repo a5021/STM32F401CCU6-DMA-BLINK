@@ -1,8 +1,8 @@
 #include "stm32f4xx.h"
                                                                                        /*
-														***	TRIPPLE BLINK ***
-					Small code example how to write to the periperal register using DMA
-							                                                                         */
+                            ***  TRIPPLE BLINK ***
+          Small code example how to write to the periperal register using DMA
+                                                                                       */
 
 __STATIC_INLINE void init(void);
 
@@ -31,8 +31,8 @@ int main(void) {
 
 #define LED(STATE) GPIO_BSRR_B ## STATE ## 13
 
-static const volatile unsigned led_data[30] = {   /* data to send to GPIOC->BSSR every TIM1 update event          */
-	LED(R), LED(S), LED(R), LED(S), LED(R), LED(S)  /* tripple led_on/led_off                                       */
+static const volatile unsigned led_data[30] = {   /* data to send to GPIOC->BSTR once TIM1 update event occures   */
+  LED(R), LED(S), LED(R), LED(S), LED(R), LED(S)  /* tripple led_on/led_off data                                  */
 };
 
 __STATIC_INLINE void init(void) {
@@ -76,12 +76,12 @@ __STATIC_INLINE void init(void) {
   );
 
   RCC->APB2ENR =                   /* 0x40023844: RCC APB2 peripheral clock enable register, Address offset: 0x44 */
-	  RCC_APB2ENR_TIM1EN;            /* (1 << 0)  Enable clock for TIM1 peripheral                     0x00000000   */
+    RCC_APB2ENR_TIM1EN;            /* (1 << 0)  Enable clock for TIM1 peripheral                     0x00000000   */
 
   GPIOC->MODER =                   /* 0x40020800: GPIOC port mode register, Address offset: 0x00                  */
-	  GPIO_MODER_MODER13_0;          /* Configure PC13 as Output                                       0x00000000   */
+    GPIO_MODER_MODER13_0;          /* Configure PC13 as Output                                       0x00000000   */
 
-	DMA2_Stream5->M0AR = (unsigned) &led_data; /* 0x40026494: DMA2 stream 5 memory 0 address register               */
+  DMA2_Stream5->M0AR = (unsigned) &led_data; /* 0x40026494: DMA2 stream 5 memory 0 address register               */
   DMA2_Stream5->NDTR = sizeof(led_data) / sizeof(unsigned); /* 0x4002648C: DMA2 stream 5 number of data register  */
   DMA2_Stream5->PAR  = (unsigned) &GPIOC->BSRR;    /* 0x40026490: DMA2 stream 5 peripheral address register       */
 

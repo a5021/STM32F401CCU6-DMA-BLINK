@@ -33,6 +33,8 @@ BIN = $(CP) -O binary -S
 
 FLAG = $(MCU) $(DEF) $(INC) -Wall -Werror -Wextra -Wpedantic -fdata-sections -ffunction-sections
 
+JLINK_FLAGS = -openprj./stm32f401cc.jflash -open$(BUILD_DIR)/$(TARGET).hex -hide -auto -exit -jflashlog./jflash.log
+
 ifeq ($(OS), Windows_NT)
 
     FLAG += -D WIN32
@@ -51,7 +53,6 @@ ifeq ($(OS), Windows_NT)
     STLINK_FLAGS = -c UR -V -P $(BUILD_DIR)/$(TARGET).hex -HardRst -Run
 
     JLINK = JFlash.exe
-    JLINK_FLAGS = -openprj./stm32f401cc.jflash -open$(BUILD_DIR)/$(TARGET).hex -hide -auto -exit -jflashlog./jflash.log
 
 else
 
@@ -77,8 +78,6 @@ else
     STLINK_FLAGS = --reset --format ihex write $(BUILD_DIR)/$(TARGET).hex
 
     JLINK = JFlashExe
-    JLINK_FLAGS = -openprj./stm32f401cc.jflash -open$(BUILD_DIR)/$(TARGET).hex -hide -auto -exit -jflashlog./jflash.log
-
 
 endif
 
