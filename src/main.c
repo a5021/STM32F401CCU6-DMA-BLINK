@@ -50,15 +50,16 @@ __STATIC_INLINE void init(void) {
   RCC->CR = RCC_CR_HSEON + RCC_CR_PLLON; /* turn PLL on                                                           */
 
   #define RCC_CFGR (       \
-    RCC_CFGR_HPRE_DIV1     |       /* 0x00000000    AHB1: SYSCLK not divided                                      */\
-    RCC_CFGR_PPRE1_DIV2    |       /* 0x00001000    APB1: HCLK divided by 2                                       */\
-    RCC_CFGR_PPRE2_DIV1            /* 0x00000000    APB2: HCLK not divided                                        */\
+    RCC_CFGR_HPRE_DIV1     |       /* 0x00000000    AHB1: SYSCLK is not divided                                   */\
+    RCC_CFGR_PPRE1_DIV2    |       /* 0x00001000    APB1: HCLK is divided by 2                                    */\
+    RCC_CFGR_PPRE2_DIV1            /* 0x00000000    APB2: HCLK is not divided                                     */\
   )
 
   RCC->CFGR = RCC_CFGR;            /* 0x40023808: RCC clock configuration register, Address offset: 0x08          */
 
-  while ((RCC->CR & RCC_CR_HSERDY) != RCC_CR_HSERDY) {} /* wait until HSE becomes ready                           */
-  while ((RCC->CR & RCC_CR_PLLRDY) != RCC_CR_PLLRDY) {} /* wait until PLL becomes ready                           */
+  #define CLK_READY (RCC_CR_HSERDY | RCC_CR_PLLRDY)
+
+  while ((RCC->CR & CLK_READY) != CLK_READY) {} /* wait until HSE and PLL become ready                            */
 
   FLASH->ACR = (                   /* 0x40023C00: FLASH access control register, Address offset: 0x00             */
     FLASH_ACR_LATENCY_2WS  |       /* (1 << 1)    Two wait states                                    0x00000002   */
@@ -68,7 +69,7 @@ __STATIC_INLINE void init(void) {
   );
 
   RCC->CFGR = RCC_CFGR + RCC_CFGR_SW_PLL; /* Select PLL as system clock                                           */
-  while ((RCC->CFGR & RCC_CFGR_SWS_PLL) != RCC_CFGR_SWS_PLL) { } /* Wait until the clock becomes stable           */
+  while ((RCC->CFGR & RCC_CFGR_SWS_PLL) != RCC_CFGR_SWS_PLL) {} /* Wait until the clock becomes stable            */
 
   RCC->AHB1ENR = (                 /* 0x40023830: RCC AHB1 peripheral clock register, Address offset: 0x30        */
     RCC_AHB1ENR_GPIOCEN    |       /* (1 << 2)  Enable clock for GPIO Port C                         0x00000004   */
