@@ -99,7 +99,7 @@ __STATIC_INLINE void init(void) {
 
   TIM1->PSC  = 100 - 1;            /* 0x40010028: TIM prescaler, Address offset: 0x28                             */
   TIM1->EGR  = TIM_EGR_UG;         /* 0x40010014: TIM event generation register, Address offset: 0x14             */
-  TIM1->ARR  = 30000 - 1;          /* 0x4001002C: TIM auto-reload register, Address offset: 0x2C                  */
+  TIM1->ARR  = 33333 - 1;          /* 0x4001002C: TIM auto-reload register, Address offset: 0x2C                  */
   TIM1->DIER = TIM_DIER_UDE;       /* 0x4001000C: TIM DMA/interrupt enable register, Address offset: 0x0C         */
   TIM1->CR1  = TIM_CR1_CEN;        /* 0x40010000: TIM control register 1, Address offset: 0x00                    */
 
