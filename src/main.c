@@ -1,16 +1,16 @@
 #include "stm32f4xx.h"
                                                                                        /*
                             ***  TRIPPLE BLINK  ***
-          Small code example how to write to a peripheral register using DMA
+    Small code example demonstrating how to write to a peripheral register using DMA
                                                                                        */
 
 __STATIC_INLINE void init(void);
 
 int main(void) {
 
-  init();   /* configure sysclock, peripherals etc.. */
+  init();   /* configure sysclock, peripherals, etc.. */
 
-  __WFI();  /* wait for interrupt (forever :-)       */
+  __WFI();  /* wait for interrupt (forever :-)        */
 
 } /* main() */
 
@@ -23,7 +23,7 @@ static const unsigned led_data[30] = {            /* data to send to GPIOC->BSTR
 
 __STATIC_INLINE void init(void) {
 
-  RCC->CR = RCC_CR_HSEON;          /* turn external 25mHz crystall on                                             */
+  RCC->CR = RCC_CR_HSEON;          /* Enable the High-Speed External oscillator (25MHz)                           */
 
   RCC->PLLCFGR = (                 /* 0x40023804: RCC PLL configuration register                                  */
     RCC_PLLCFGR_PLLM_2     |       /* (0x04 << 0)    divide crystall clock                           0x00000004   */
